@@ -26,16 +26,16 @@ def main():
     parser.add_argument("--data_path", type=str,
                         default="./data/", help="The dataset's dir")
     parser.add_argument("--add_position_features", action='store_true',
-                        default=False, help="Use position embeddings or not")
+                        default=True, help="Use position embeddings or not")
     # training args
     parser.add_argument("--max_len", type=int,
                         default=150, help="Max size of formula")
     parser.add_argument("--dropout", type=float,
-                        default=0., help="Dropout probility")
+                        default=0.3, help="Dropout probility")
     parser.add_argument("--cuda", action='store_true',
                         default=True, help="Use cuda or not")
     parser.add_argument("--batch_size", type=int, default=32)
-    parser.add_argument("--epoches", type=int, default=15)
+    parser.add_argument("--epoches", type=int, default=50)
     parser.add_argument("--lr", type=float, default=3e-4,
                         help="Learning Rate")
     parser.add_argument("--min_lr", type=float, default=3e-5,
@@ -57,7 +57,7 @@ def main():
     parser.add_argument("--clip", type=float, default=2.0,
                         help="The max gradient norm")
     parser.add_argument("--save_dir", type=str,
-                        default="./ckpts", help="The dir to save checkpoints")
+                        default="./ckpts_100k_filtered_mod", help="The dir to save checkpoints")
     parser.add_argument("--print_freq", type=int, default=100,
                         help="The frequency to print message")
     parser.add_argument("--seed", type=int, default=2020,

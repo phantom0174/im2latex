@@ -6,4 +6,6 @@ data/formula_images_processed
 data/*.lst
 data/*.pkl
 
-
+*.pt
+*.pth
+*.pkl

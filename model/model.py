@@ -7,6 +7,8 @@ from torch.distributions.uniform import Uniform
 
 from .position_embedding import add_positional_features
 
+from ..custom import USE_OUR_CNN
+
 INIT = 1e-2
 
 
@@ -16,24 +18,48 @@ class Im2LatexModel(nn.Module):
                  add_pos_feat=False, dropout=0.):
         super(Im2LatexModel, self).__init__()
 
-        self.cnn_encoder = nn.Sequential(
-            nn.Conv2d(3, 64, 3, 1, 1),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2, 1),
+        if USE_OUR_CNN:
+            self.cnn_encoder = nn.Sequential(
+                nn.Conv2d(3, 64, 3, 1, 1),
+                nn.BatchNorm2d(64),
+                nn.LeakyReLU(negative_slope=0.01),
+                nn.MaxPool2d(2, 2, 1),
 
-            nn.Conv2d(64, 128, 3, 1, 1),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2, 1),
+                nn.Conv2d(64, 128, 3, 1, 1),
+                nn.BatchNorm2d(128),
+                nn.LeakyReLU(negative_slope=0.01),
+                nn.MaxPool2d(2, 2, 1),
 
-            nn.Conv2d(128, 256, 3, 1, 1),
-            nn.ReLU(),
-            nn.Conv2d(256, 256, 3, 1, 1),
-            nn.ReLU(),
-            nn.MaxPool2d((2, 1), (2, 1), 0),
+                nn.Conv2d(128, 256, 3, 1, 1),
+                nn.BatchNorm2d(256),
+                nn.LeakyReLU(negative_slope=0.01),
+                nn.Conv2d(256, 256, 3, 1, 1),
+                nn.BatchNorm2d(256),
+                nn.LeakyReLU(negative_slope=0.01),
+                nn.MaxPool2d((2, 1), (2, 1), 0),
 
-            nn.Conv2d(256, enc_out_dim, 3, 1, 0),
-            nn.ReLU()
-        )
+                nn.Conv2d(256, enc_out_dim, 3, 1, 0),
+                nn.LeakyReLU(negative_slope=0.01),
+            )
+        else:
+            self.cnn_encoder = nn.Sequential(
+                nn.Conv2d(3, 64, 3, 1, 1),
+                nn.ReLU(),
+                nn.MaxPool2d(2, 2, 1),
+
+                nn.Conv2d(64, 128, 3, 1, 1),
+                nn.ReLU(),
+                nn.MaxPool2d(2, 2, 1),
+
+                nn.Conv2d(128, 256, 3, 1, 1),
+                nn.ReLU(),
+                nn.Conv2d(256, 256, 3, 1, 1),
+                nn.ReLU(),
+                nn.MaxPool2d((2, 1), (2, 1), 0),
+
+                nn.Conv2d(256, enc_out_dim, 3, 1, 0),
+                nn.ReLU()
+            )
 
         self.rnn_decoder = nn.LSTMCell(dec_rnn_h+emb_size, dec_rnn_h)
         self.embedding = nn.Embedding(out_size, emb_size)

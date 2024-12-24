@@ -37,15 +37,21 @@ def build_vocab(data_dir, min_count=10):
     vocab = Vocab()
     counter = Counter()
 
-    formulas_file = join(data_dir, 'im2latex_formulas.norm.lst')
-    with open(formulas_file, 'r') as f:
-        formulas = [formula.strip('\n') for formula in f.readlines()]
+    # formulas_file = join(data_dir, 'im2latex_formulas.norm.lst')
+    # with open(formulas_file, 'r') as f:
+    #     formulas = [formula.strip('\n') for formula in f.readlines()]
 
-    with open(join(data_dir, 'im2latex_train_filter.lst'), 'r') as f:
+    # with open(join(data_dir, 'im2latex_train_filter.lst'), 'r') as f:
+    #     for line in f:
+    #         _, idx = line.strip('\n').split()
+    #         idx = int(idx)
+    #         formula = formulas[idx].split()
+    #         counter.update(formula)
+
+    with open('./data/final_png_formulas.txt', 'r', encoding='utf-8') as f:
         for line in f:
-            _, idx = line.strip('\n').split()
-            idx = int(idx)
-            formula = formulas[idx].split()
+            formula = line.strip('\n').split()
+            # print(formula)
             counter.update(formula)
 
     for word, count in counter.most_common():

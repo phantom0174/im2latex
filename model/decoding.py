@@ -32,7 +32,8 @@ class LatexProducer(object):
         if self.beam_size == 1:
             results = self._greedy_decoding(imgs)
         else:
-            results = self._batch_beam_search(imgs)
+            # results = self._batch_beam_search(imgs) # erroneous
+            results = self._simple_beam_search_decoding(imgs)
         return results
 
     def _greedy_decoding(self, imgs):

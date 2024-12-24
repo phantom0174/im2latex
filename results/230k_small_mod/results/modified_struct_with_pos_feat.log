@@ -1,0 +1,480 @@
+D:\src\ML\im2latex>python train.py
+Training args: Namespace(emb_dim=80, dec_rnn_h=512, data_path='./data/', add_position_features=True, max_len=150, dropout=0.0, cuda=True, batch_size=32, epoches=25, lr=0.0003, min_lr=3e-05, sample_method='teacher_forcing', decay_k=1.0, lr_decay=0.5, 
+lr_patience=3, clip=2.0, save_dir='./ckpts', print_freq=100, seed=2020, from_check_point=False)
+Load vocab...
+Load vocab including 429 words!
+Construct data loader...
+D:\src\ML\im2latex\data.py:20: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to 
+this experimental feature.
+  pairs = torch.load(join(self.data_dir, "{}.pkl".format(self.split)))
+Construct model
+Model Settings:
+Im2LatexModel(
+  (cnn_encoder): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): LeakyReLU(negative_slope=0.01)
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (4): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (5): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): LeakyReLU(negative_slope=0.01)
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (8): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (9): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): LeakyReLU(negative_slope=0.01)
+    (11): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (12): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (13): LeakyReLU(negative_slope=0.01)
+    (14): MaxPool2d(kernel_size=(2, 1), stride=(2, 1), padding=0, dilation=1, ceil_mode=False)
+    (15): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1))
+    (16): LeakyReLU(negative_slope=0.01)
+  )
+  (rnn_decoder): LSTMCell(592, 512)
+  (embedding): Embedding(429, 80)
+  (init_wh): Linear(in_features=512, out_features=512, bias=True)
+  (init_wc): Linear(in_features=512, out_features=512, bias=True)
+  (init_wo): Linear(in_features=512, out_features=512, bias=True)
+  (W_1): Linear(in_features=512, out_features=512, bias=False)
+  (W_2): Linear(in_features=512, out_features=512, bias=False)
+  (W_3): Linear(in_features=1024, out_features=512, bias=False)
+  (W_out): Linear(in_features=512, out_features=429, bias=False)
+  (dropout): Dropout(p=0.0, inplace=False)
+)
+C:\Users\user\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\optim\lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+Epoch 1, step:100/1325 7.55%, Loss:3.6996, Perplexity:12.9924
+Epoch 1, step:200/1325 15.09%, Loss:3.1328, Perplexity:8.7712
+Epoch 1, step:300/1325 22.64%, Loss:2.9398, Perplexity:7.6731
+Epoch 1, step:400/1325 30.19%, Loss:2.7530, Perplexity:6.7410
+Epoch 1, step:100/1325 7.55%, Loss:3.6996, Perplexity:12.9924
+Epoch 1, step:200/1325 15.09%, Loss:3.1328, Perplexity:8.7712
+Epoch 1, step:300/1325 22.64%, Loss:2.9398, Perplexity:7.6731
+Epoch 1, step:400/1325 30.19%, Loss:2.7530, Perplexity:6.7410
+Epoch 1, step:200/1325 15.09%, Loss:3.1328, Perplexity:8.7712
+Epoch 1, step:300/1325 22.64%, Loss:2.9398, Perplexity:7.6731
+Epoch 1, step:400/1325 30.19%, Loss:2.7530, Perplexity:6.7410
+Epoch 1, step:500/1325 37.74%, Loss:2.8080, Perplexity:7.0030
+Epoch 1, step:300/1325 22.64%, Loss:2.9398, Perplexity:7.6731
+Epoch 1, step:400/1325 30.19%, Loss:2.7530, Perplexity:6.7410
+Epoch 1, step:500/1325 37.74%, Loss:2.8080, Perplexity:7.0030
+Epoch 1, step:600/1325 45.28%, Loss:2.6572, Perplexity:6.3082
+Epoch 1, step:700/1325 52.83%, Loss:2.5233, Perplexity:5.7490
+Epoch 1, step:400/1325 30.19%, Loss:2.7530, Perplexity:6.7410
+Epoch 1, step:500/1325 37.74%, Loss:2.8080, Perplexity:7.0030
+Epoch 1, step:600/1325 45.28%, Loss:2.6572, Perplexity:6.3082
+Epoch 1, step:700/1325 52.83%, Loss:2.5233, Perplexity:5.7490
+Epoch 1, step:800/1325 60.38%, Loss:2.4782, Perplexity:5.5722
+Epoch 1, step:500/1325 37.74%, Loss:2.8080, Perplexity:7.0030
+Epoch 1, step:600/1325 45.28%, Loss:2.6572, Perplexity:6.3082
+Epoch 1, step:700/1325 52.83%, Loss:2.5233, Perplexity:5.7490
+Epoch 1, step:800/1325 60.38%, Loss:2.4782, Perplexity:5.5722
+Epoch 1, step:900/1325 67.92%, Loss:2.4833, Perplexity:5.5917
+Epoch 1, step:600/1325 45.28%, Loss:2.6572, Perplexity:6.3082
+Epoch 1, step:700/1325 52.83%, Loss:2.5233, Perplexity:5.7490
+Epoch 1, step:800/1325 60.38%, Loss:2.4782, Perplexity:5.5722
+Epoch 1, step:900/1325 67.92%, Loss:2.4833, Perplexity:5.5917
+Epoch 1, step:800/1325 60.38%, Loss:2.4782, Perplexity:5.5722
+Epoch 1, step:900/1325 67.92%, Loss:2.4833, Perplexity:5.5917
+Epoch 1, step:1000/1325 75.47%, Loss:2.3506, Perplexity:5.1002
+Epoch 1, step:900/1325 67.92%, Loss:2.4833, Perplexity:5.5917
+Epoch 1, step:1000/1325 75.47%, Loss:2.3506, Perplexity:5.1002
+Epoch 1, step:1100/1325 83.02%, Loss:2.2971, Perplexity:4.9148
+Epoch 1, step:1000/1325 75.47%, Loss:2.3506, Perplexity:5.1002
+Epoch 1, step:1100/1325 83.02%, Loss:2.2971, Perplexity:4.9148
+Epoch 1, step:1100/1325 83.02%, Loss:2.2971, Perplexity:4.9148
+Epoch 1, step:1200/1325 90.57%, Loss:2.3787, Perplexity:5.2008
+Epoch 1, step:1200/1325 90.57%, Loss:2.3787, Perplexity:5.2008
+Epoch 1, step:1300/1325 98.11%, Loss:2.4208, Perplexity:5.3545
+Epoch 1, validation average loss:2.7482, Perplexity:6.7188
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-1-2.7482.pt
+Epoch 2, step:100/1325 7.55%, Loss:2.4629, Perplexity:5.5134
+Epoch 2, step:200/1325 15.09%, Loss:2.4050, Perplexity:5.2963
+Epoch 2, step:300/1325 22.64%, Loss:2.3673, Perplexity:5.1596
+Epoch 2, step:400/1325 30.19%, Loss:2.2486, Perplexity:4.7522
+Epoch 2, step:500/1325 37.74%, Loss:2.2373, Perplexity:4.7152
+Epoch 2, step:600/1325 45.28%, Loss:2.2120, Perplexity:4.6331
+Epoch 2, step:700/1325 52.83%, Loss:2.1431, Perplexity:4.4170
+Epoch 2, step:800/1325 60.38%, Loss:2.1104, Perplexity:4.3181
+Epoch 2, step:900/1325 67.92%, Loss:2.1368, Perplexity:4.3978
+Epoch 2, step:1000/1325 75.47%, Loss:2.0423, Perplexity:4.1190
+Epoch 2, step:1100/1325 83.02%, Loss:1.9959, Perplexity:3.9885
+Epoch 2, step:1200/1325 90.57%, Loss:2.1066, Perplexity:4.3066
+Epoch 2, step:1300/1325 98.11%, Loss:2.2021, Perplexity:4.6016
+Epoch 2, validation average loss:2.4958, Perplexity:5.6406
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-2-2.4958.pt
+Epoch 3, step:100/1325 7.55%, Loss:2.1647, Perplexity:4.4836
+Epoch 3, step:200/1325 15.09%, Loss:2.0797, Perplexity:4.2273
+Epoch 3, step:300/1325 22.64%, Loss:2.0524, Perplexity:4.1481
+Epoch 3, step:400/1325 30.19%, Loss:1.9321, Perplexity:3.8161
+Epoch 3, step:500/1325 37.74%, Loss:1.9142, Perplexity:3.7691
+Epoch 3, step:600/1325 45.28%, Loss:1.8824, Perplexity:3.6869
+Epoch 3, step:700/1325 52.83%, Loss:1.8099, Perplexity:3.5063
+Epoch 3, step:800/1325 60.38%, Loss:1.8235, Perplexity:3.5393
+Epoch 3, step:900/1325 67.92%, Loss:1.8320, Perplexity:3.5602
+Epoch 3, step:1000/1325 75.47%, Loss:1.7536, Perplexity:3.3720
+Epoch 3, step:1100/1325 83.02%, Loss:1.7134, Perplexity:3.2794
+Epoch 3, step:1200/1325 90.57%, Loss:1.8416, Perplexity:3.5840
+Epoch 3, step:1300/1325 98.11%, Loss:1.9892, Perplexity:3.9701
+Epoch 3, validation average loss:2.2335, Perplexity:4.7027
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-3-2.2335.pt
+Epoch 4, step:100/1325 7.55%, Loss:1.7886, Perplexity:3.4548
+Epoch 4, step:200/1325 15.09%, Loss:1.6793, Perplexity:3.2027
+Epoch 4, step:300/1325 22.64%, Loss:1.6536, Perplexity:3.1461
+Epoch 4, step:400/1325 30.19%, Loss:1.5407, Perplexity:2.9093
+Epoch 4, step:500/1325 37.74%, Loss:1.5376, Perplexity:2.9031
+Epoch 4, step:600/1325 45.28%, Loss:1.4597, Perplexity:2.7506
+Epoch 4, step:700/1325 52.83%, Loss:1.4096, Perplexity:2.6566
+Epoch 4, step:800/1325 60.38%, Loss:1.4153, Perplexity:2.6671
+Epoch 4, step:900/1325 67.92%, Loss:1.4328, Perplexity:2.6997
+Epoch 4, step:1000/1325 75.47%, Loss:1.3797, Perplexity:2.6021
+Epoch 4, step:1100/1325 83.02%, Loss:1.3533, Perplexity:2.5549
+Epoch 4, step:1200/1325 90.57%, Loss:1.5020, Perplexity:2.8324
+Epoch 4, step:1300/1325 98.11%, Loss:1.7513, Perplexity:3.3667
+Epoch 4, validation average loss:2.2035, Perplexity:4.6059
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-4-2.2035.pt
+Epoch 5, step:100/1325 7.55%, Loss:1.3296, Perplexity:2.5133
+Epoch 5, step:200/1325 15.09%, Loss:1.2145, Perplexity:2.3206
+Epoch 5, step:300/1325 22.64%, Loss:1.1784, Perplexity:2.2632
+Epoch 5, step:400/1325 30.19%, Loss:1.0867, Perplexity:2.1239
+Epoch 5, step:500/1325 37.74%, Loss:1.1033, Perplexity:2.1484
+Epoch 5, step:600/1325 45.28%, Loss:1.0452, Perplexity:2.0637
+Epoch 5, step:700/1325 52.83%, Loss:0.9845, Perplexity:1.9786
+Epoch 5, step:800/1325 60.38%, Loss:0.9833, Perplexity:1.9770
+Epoch 5, step:900/1325 67.92%, Loss:1.0054, Perplexity:2.0075
+Epoch 5, step:1000/1325 75.47%, Loss:0.9901, Perplexity:1.9863
+Epoch 5, step:1100/1325 83.02%, Loss:0.9944, Perplexity:1.9923
+Epoch 5, step:1200/1325 90.57%, Loss:1.1818, Perplexity:2.2685
+Epoch 5, step:1300/1325 98.11%, Loss:1.4865, Perplexity:2.8020
+Epoch 5, validation average loss:1.8410, Perplexity:3.5825
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-5-1.8410.pt
+Epoch 6, step:100/1325 7.55%, Loss:0.9216, Perplexity:1.8942
+Epoch 6, step:200/1325 15.09%, Loss:0.8441, Perplexity:1.7952
+Epoch 6, step:300/1325 22.64%, Loss:0.8084, Perplexity:1.7513
+Epoch 6, step:400/1325 30.19%, Loss:0.7577, Perplexity:1.6907
+Epoch 6, step:500/1325 37.74%, Loss:0.7544, Perplexity:1.6869
+Epoch 6, step:600/1325 45.28%, Loss:0.7537, Perplexity:1.6861
+Epoch 6, step:700/1325 52.83%, Loss:0.6751, Perplexity:1.5967
+Epoch 6, step:800/1325 60.38%, Loss:0.6879, Perplexity:1.6110
+Epoch 6, step:900/1325 67.92%, Loss:0.7320, Perplexity:1.6609
+Epoch 6, step:1000/1325 75.47%, Loss:0.7201, Perplexity:1.6473
+Epoch 6, step:1100/1325 83.02%, Loss:0.7357, Perplexity:1.6652
+Epoch 6, step:1200/1325 90.57%, Loss:0.9180, Perplexity:1.8895
+Epoch 6, step:1300/1325 98.11%, Loss:1.2620, Perplexity:2.3983
+Epoch 6, validation average loss:1.6925, Perplexity:3.2321
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-6-1.6925.pt
+Epoch 7, step:100/1325 7.55%, Loss:0.6548, Perplexity:1.5744
+Epoch 7, step:200/1325 15.09%, Loss:0.6307, Perplexity:1.5483
+Epoch 7, step:300/1325 22.64%, Loss:0.6131, Perplexity:1.5295
+Epoch 7, step:400/1325 30.19%, Loss:0.5691, Perplexity:1.4836
+Epoch 7, step:500/1325 37.74%, Loss:0.5634, Perplexity:1.4778
+Epoch 7, step:600/1325 45.28%, Loss:0.5824, Perplexity:1.4973
+Epoch 7, step:700/1325 52.83%, Loss:0.5092, Perplexity:1.4233
+Epoch 7, step:800/1325 60.38%, Loss:0.5235, Perplexity:1.4374
+Epoch 7, step:900/1325 67.92%, Loss:0.5501, Perplexity:1.4642
+Epoch 7, step:1000/1325 75.47%, Loss:0.5596, Perplexity:1.4738
+Epoch 7, step:1100/1325 83.02%, Loss:0.5677, Perplexity:1.4822
+Epoch 7, step:1200/1325 90.57%, Loss:0.7929, Perplexity:1.7326
+Epoch 7, step:1300/1325 98.11%, Loss:1.0643, Perplexity:2.0911
+Epoch 7, validation average loss:1.3755, Perplexity:2.5946
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-7-1.3755.pt
+Epoch 8, step:100/1325 7.55%, Loss:0.5006, Perplexity:1.4148
+Epoch 8, step:200/1325 15.09%, Loss:0.4908, Perplexity:1.4052
+Epoch 8, step:300/1325 22.64%, Loss:0.4654, Perplexity:1.3807
+Epoch 8, step:400/1325 30.19%, Loss:0.4288, Perplexity:1.3461
+Epoch 8, step:500/1325 37.74%, Loss:0.4254, Perplexity:1.3429
+Epoch 8, step:600/1325 45.28%, Loss:0.4772, Perplexity:1.3920
+Epoch 8, step:700/1325 52.83%, Loss:0.4056, Perplexity:1.3247
+Epoch 8, step:800/1325 60.38%, Loss:0.4109, Perplexity:1.3295
+Epoch 8, step:900/1325 67.92%, Loss:0.4320, Perplexity:1.3491
+Epoch 8, step:1000/1325 75.47%, Loss:0.4381, Perplexity:1.3548
+Epoch 8, step:1100/1325 83.02%, Loss:0.4525, Perplexity:1.3684
+Epoch 8, step:1200/1325 90.57%, Loss:0.6224, Perplexity:1.5394
+Epoch 8, step:1300/1325 98.11%, Loss:0.8532, Perplexity:1.8066
+Epoch 8, validation average loss:1.2142, Perplexity:2.3200
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-8-1.2142.pt
+Epoch 9, step:100/1325 7.55%, Loss:0.3652, Perplexity:1.2880
+Epoch 9, step:200/1325 15.09%, Loss:0.3990, Perplexity:1.3186
+Epoch 9, step:300/1325 22.64%, Loss:0.3823, Perplexity:1.3034
+Epoch 9, step:400/1325 30.19%, Loss:0.3508, Perplexity:1.2752
+Epoch 9, step:500/1325 37.74%, Loss:0.3470, Perplexity:1.2719
+Epoch 9, step:600/1325 45.28%, Loss:0.3921, Perplexity:1.3123
+Epoch 9, step:700/1325 52.83%, Loss:0.3285, Perplexity:1.2557
+Epoch 9, step:800/1325 60.38%, Loss:0.3229, Perplexity:1.2508
+Epoch 9, step:900/1325 67.92%, Loss:0.3440, Perplexity:1.2692
+Epoch 9, step:1000/1325 75.47%, Loss:0.3482, Perplexity:1.2730
+Epoch 9, step:1100/1325 83.02%, Loss:0.3522, Perplexity:1.2765
+Epoch 9, step:1200/1325 90.57%, Loss:0.5128, Perplexity:1.4268
+Epoch 9, step:1300/1325 98.11%, Loss:0.7366, Perplexity:1.6663
+Epoch 9, validation average loss:1.3652, Perplexity:2.5761
+Saving checkpoint to ./ckpts\ckpt-9-1.3652.pt
+Epoch 10, step:100/1325 7.55%, Loss:0.3219, Perplexity:1.2499
+Epoch 10, step:200/1325 15.09%, Loss:0.3445, Perplexity:1.2697
+Epoch 10, step:300/1325 22.64%, Loss:0.3237, Perplexity:1.2516
+Epoch 10, step:400/1325 30.19%, Loss:0.2843, Perplexity:1.2178
+Epoch 10, step:500/1325 37.74%, Loss:0.2942, Perplexity:1.2262
+Epoch 10, step:600/1325 45.28%, Loss:0.3442, Perplexity:1.2695
+Epoch 10, step:700/1325 52.83%, Loss:0.2970, Perplexity:1.2286
+Epoch 10, step:800/1325 60.38%, Loss:0.2802, Perplexity:1.2144
+Epoch 10, step:900/1325 67.92%, Loss:0.2938, Perplexity:1.2258
+Epoch 10, step:1000/1325 75.47%, Loss:0.3033, Perplexity:1.2339
+Epoch 10, step:1100/1325 83.02%, Loss:0.3162, Perplexity:1.2450
+Epoch 10, step:1200/1325 90.57%, Loss:0.4534, Perplexity:1.3693
+Epoch 10, step:1200/1325 90.57%, Loss:0.4534, Perplexity:1.3693
+Epoch 10, step:1300/1325 98.11%, Loss:0.6299, Perplexity:1.5475
+Epoch 10, step:1300/1325 98.11%, Loss:0.6299, Perplexity:1.5475
+Epoch 10, validation average loss:1.4456, Perplexity:2.7238
+Saving checkpoint to ./ckpts\ckpt-10-1.4456.pt
+Epoch 11, step:100/1325 7.55%, Loss:0.2776, Perplexity:1.2122
+Epoch 11, step:200/1325 15.09%, Loss:0.2953, Perplexity:1.2271
+Epoch 11, step:300/1325 22.64%, Loss:0.3050, Perplexity:1.2354
+Epoch 11, step:400/1325 30.19%, Loss:0.2337, Perplexity:1.1758
+Epoch 11, step:500/1325 37.74%, Loss:0.2477, Perplexity:1.1873
+Epoch 11, step:600/1325 45.28%, Loss:0.2999, Perplexity:1.2311
+Epoch 11, step:700/1325 52.83%, Loss:0.2383, Perplexity:1.1796
+Epoch 11, step:800/1325 60.38%, Loss:0.2293, Perplexity:1.1723
+Epoch 11, step:900/1325 67.92%, Loss:0.2536, Perplexity:1.1922
+Epoch 11, step:1000/1325 75.47%, Loss:0.2539, Perplexity:1.1925
+Epoch 11, step:1100/1325 83.02%, Loss:0.2725, Perplexity:1.2079
+Epoch 11, step:1200/1325 90.57%, Loss:0.4025, Perplexity:1.3218
+Epoch 11, step:1300/1325 98.11%, Loss:0.5890, Perplexity:1.5042
+Epoch 11, validation average loss:1.0236, Perplexity:2.0330
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-11-1.0236.pt
+Epoch 12, step:100/1325 7.55%, Loss:0.2133, Perplexity:1.1594
+Epoch 12, step:200/1325 15.09%, Loss:0.2470, Perplexity:1.1867
+Epoch 12, step:300/1325 22.64%, Loss:0.2858, Perplexity:1.2191
+Epoch 12, step:400/1325 30.19%, Loss:0.1991, Perplexity:1.1480
+Epoch 12, step:500/1325 37.74%, Loss:0.2098, Perplexity:1.1565
+Epoch 12, step:600/1325 45.28%, Loss:0.2661, Perplexity:1.2025
+Epoch 12, step:700/1325 52.83%, Loss:0.1954, Perplexity:1.1451
+Epoch 12, step:800/1325 60.38%, Loss:0.1956, Perplexity:1.1452
+Epoch 12, step:900/1325 67.92%, Loss:0.2201, Perplexity:1.1648
+Epoch 12, step:1000/1325 75.47%, Loss:0.2039, Perplexity:1.1518
+Epoch 12, step:1100/1325 83.02%, Loss:0.2120, Perplexity:1.1583
+Epoch 12, step:1200/1325 90.57%, Loss:0.3305, Perplexity:1.2575
+Epoch 12, step:1300/1325 98.11%, Loss:0.4610, Perplexity:1.3765
+Epoch 12, validation average loss:1.3905, Perplexity:2.6218
+Saving checkpoint to ./ckpts\ckpt-12-1.3905.pt
+Epoch 13, step:100/1325 7.55%, Loss:0.1908, Perplexity:1.1414
+Epoch 13, step:200/1325 15.09%, Loss:0.2225, Perplexity:1.1668
+Epoch 13, step:300/1325 22.64%, Loss:0.2394, Perplexity:1.1805
+Epoch 13, step:400/1325 30.19%, Loss:0.1782, Perplexity:1.1315
+Epoch 13, step:500/1325 37.74%, Loss:0.1931, Perplexity:1.1433
+Epoch 13, step:600/1325 45.28%, Loss:0.2391, Perplexity:1.1802
+Epoch 13, step:700/1325 52.83%, Loss:0.1790, Perplexity:1.1321
+Epoch 13, step:800/1325 60.38%, Loss:0.1778, Perplexity:1.1311
+Epoch 13, step:900/1325 67.92%, Loss:0.1874, Perplexity:1.1387
+Epoch 13, step:1000/1325 75.47%, Loss:0.1996, Perplexity:1.1484
+Epoch 13, step:1100/1325 83.02%, Loss:0.1746, Perplexity:1.1287
+Epoch 13, step:1200/1325 90.57%, Loss:0.3059, Perplexity:1.2362
+Epoch 13, step:1300/1325 98.11%, Loss:0.4282, Perplexity:1.3455
+Epoch 13, validation average loss:1.0593, Perplexity:2.0839
+Saving checkpoint to ./ckpts\ckpt-13-1.0593.pt
+Epoch 14, step:100/1325 7.55%, Loss:0.1580, Perplexity:1.1157
+Epoch 14, step:200/1325 15.09%, Loss:0.2011, Perplexity:1.1496
+Epoch 14, step:300/1325 22.64%, Loss:0.1877, Perplexity:1.1390
+Epoch 14, step:400/1325 30.19%, Loss:0.1529, Perplexity:1.1118
+Epoch 14, step:500/1325 37.74%, Loss:0.1639, Perplexity:1.1203
+Epoch 14, step:600/1325 45.28%, Loss:0.2198, Perplexity:1.1646
+Epoch 14, step:700/1325 52.83%, Loss:0.1610, Perplexity:1.1181
+Epoch 14, step:800/1325 60.38%, Loss:0.1486, Perplexity:1.1085
+Epoch 14, step:900/1325 67.92%, Loss:0.1609, Perplexity:1.1180
+Epoch 14, step:1000/1325 75.47%, Loss:0.1783, Perplexity:1.1316
+Epoch 14, step:1100/1325 83.02%, Loss:0.1753, Perplexity:1.1292
+Epoch 14, step:1200/1325 90.57%, Loss:0.2415, Perplexity:1.1823
+Epoch 14, step:1300/1325 98.11%, Loss:0.3884, Perplexity:1.3089
+Epoch 14, validation average loss:1.7559, Perplexity:3.3774
+Saving checkpoint to ./ckpts\ckpt-14-1.7559.pt
+Epoch 15, step:100/1325 7.55%, Loss:0.1451, Perplexity:1.1058
+Epoch 15, step:200/1325 15.09%, Loss:0.1808, Perplexity:1.1335
+Epoch 15, step:300/1325 22.64%, Loss:0.1599, Perplexity:1.1172
+Epoch 15, step:400/1325 30.19%, Loss:0.1335, Perplexity:1.0970
+Epoch 15, step:500/1325 37.74%, Loss:0.1547, Perplexity:1.1132
+Epoch 15, step:600/1325 45.28%, Loss:0.1957, Perplexity:1.1453
+Epoch 15, step:700/1325 52.83%, Loss:0.1333, Perplexity:1.0968
+Epoch 15, step:800/1325 60.38%, Loss:0.1276, Perplexity:1.0925
+Epoch 15, step:900/1325 67.92%, Loss:0.1328, Perplexity:1.0964
+Epoch 15, step:1000/1325 75.47%, Loss:0.1461, Perplexity:1.1066
+Epoch 15, step:1100/1325 83.02%, Loss:0.1461, Perplexity:1.1066
+Epoch 15, step:1200/1325 90.57%, Loss:0.2179, Perplexity:1.1630
+Epoch 15, step:1300/1325 98.11%, Loss:0.3365, Perplexity:1.2627
+Epoch 15, validation average loss:1.1356, Perplexity:2.1971
+Saving checkpoint to ./ckpts\ckpt-15-1.1356.pt
+Epoch 16, step:100/1325 7.55%, Loss:0.1211, Perplexity:1.0875
+Epoch 16, step:200/1325 15.09%, Loss:0.1505, Perplexity:1.1100
+Epoch 16, step:300/1325 22.64%, Loss:0.1274, Perplexity:1.0923
+Epoch 16, step:400/1325 30.19%, Loss:0.1037, Perplexity:1.0745
+Epoch 16, step:500/1325 37.74%, Loss:0.1077, Perplexity:1.0775
+Epoch 16, step:600/1325 45.28%, Loss:0.1562, Perplexity:1.1144
+Epoch 16, step:700/1325 52.83%, Loss:0.1019, Perplexity:1.0732
+Epoch 16, step:800/1325 60.38%, Loss:0.0956, Perplexity:1.0685
+Epoch 16, step:900/1325 67.92%, Loss:0.0935, Perplexity:1.0669
+Epoch 16, step:1000/1325 75.47%, Loss:0.1054, Perplexity:1.0758
+Epoch 16, step:1100/1325 83.02%, Loss:0.0907, Perplexity:1.0649
+Epoch 16, step:1200/1325 90.57%, Loss:0.1430, Perplexity:1.1042
+Epoch 16, step:1300/1325 98.11%, Loss:0.2191, Perplexity:1.1640
+Epoch 16, validation average loss:1.1578, Perplexity:2.2312
+Saving checkpoint to ./ckpts\ckpt-16-1.1578.pt
+Epoch 17, step:100/1325 7.55%, Loss:0.0737, Perplexity:1.0524
+Epoch 17, step:200/1325 15.09%, Loss:0.1123, Perplexity:1.0810
+Epoch 17, step:300/1325 22.64%, Loss:0.0911, Perplexity:1.0652
+Epoch 17, step:400/1325 30.19%, Loss:0.0675, Perplexity:1.0479
+Epoch 17, step:500/1325 37.74%, Loss:0.0717, Perplexity:1.0510
+Epoch 17, step:600/1325 45.28%, Loss:0.1243, Perplexity:1.0900
+Epoch 17, step:700/1325 52.83%, Loss:0.0659, Perplexity:1.0468
+Epoch 17, step:800/1325 60.38%, Loss:0.0647, Perplexity:1.0458
+Epoch 17, step:900/1325 67.92%, Loss:0.0604, Perplexity:1.0428
+Epoch 17, step:1000/1325 75.47%, Loss:0.0602, Perplexity:1.0426
+Epoch 17, step:1100/1325 83.02%, Loss:0.0533, Perplexity:1.0376
+Epoch 17, step:1200/1325 90.57%, Loss:0.0890, Perplexity:1.0636
+Epoch 17, step:1300/1325 98.11%, Loss:0.1389, Perplexity:1.1011
+Epoch 17, validation average loss:0.8887, Perplexity:1.8515
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-17-0.8887.pt
+Epoch 18, step:100/1325 7.55%, Loss:0.0584, Perplexity:1.0413
+Epoch 18, step:200/1325 15.09%, Loss:0.0977, Perplexity:1.0701
+Epoch 18, step:300/1325 22.64%, Loss:0.0775, Perplexity:1.0552
+Epoch 18, step:400/1325 30.19%, Loss:0.0593, Perplexity:1.0419
+Epoch 18, step:500/1325 37.74%, Loss:0.0617, Perplexity:1.0437
+Epoch 18, step:600/1325 45.28%, Loss:0.1098, Perplexity:1.0791
+Epoch 18, step:700/1325 52.83%, Loss:0.0566, Perplexity:1.0400
+Epoch 18, step:800/1325 60.38%, Loss:0.0562, Perplexity:1.0397
+Epoch 18, step:900/1325 67.92%, Loss:0.0462, Perplexity:1.0326
+Epoch 18, step:1000/1325 75.47%, Loss:0.0475, Perplexity:1.0334
+Epoch 18, step:1100/1325 83.02%, Loss:0.0478, Perplexity:1.0337
+Epoch 18, step:1200/1325 90.57%, Loss:0.0800, Perplexity:1.0570
+Epoch 18, step:1300/1325 98.11%, Loss:0.1413, Perplexity:1.1029
+Epoch 18, validation average loss:1.0287, Perplexity:2.0402
+Saving checkpoint to ./ckpts\ckpt-18-1.0287.pt
+Epoch 19, step:100/1325 7.55%, Loss:0.0519, Perplexity:1.0367
+Epoch 19, step:200/1325 15.09%, Loss:0.0901, Perplexity:1.0645
+Epoch 19, step:300/1325 22.64%, Loss:0.0701, Perplexity:1.0498
+Epoch 19, step:400/1325 30.19%, Loss:0.0494, Perplexity:1.0348
+Epoch 19, step:500/1325 37.74%, Loss:0.0548, Perplexity:1.0387
+Epoch 19, step:600/1325 45.28%, Loss:0.0977, Perplexity:1.0701
+Epoch 19, step:700/1325 52.83%, Loss:0.0553, Perplexity:1.0391
+Epoch 19, step:800/1325 60.38%, Loss:0.0524, Perplexity:1.0370
+Epoch 19, step:900/1325 67.92%, Loss:0.0518, Perplexity:1.0365
+Epoch 19, step:1000/1325 75.47%, Loss:0.0488, Perplexity:1.0344
+Epoch 19, step:1100/1325 83.02%, Loss:0.0439, Perplexity:1.0309
+Epoch 19, step:1200/1325 90.57%, Loss:0.0663, Perplexity:1.0470
+Epoch 19, step:1300/1325 98.11%, Loss:0.1369, Perplexity:1.0995
+Epoch 19, validation average loss:0.8475, Perplexity:1.7994
+Saving checkpoint to ./ckpts\best_ckpt.pt
+Saving checkpoint to ./ckpts\ckpt-19-0.8475.pt
+Epoch 20, step:100/1325 7.55%, Loss:0.0467, Perplexity:1.0329
+Epoch 20, step:200/1325 15.09%, Loss:0.0829, Perplexity:1.0591
+Epoch 20, step:300/1325 22.64%, Loss:0.0609, Perplexity:1.0431
+Epoch 20, step:400/1325 30.19%, Loss:0.0428, Perplexity:1.0301
+Epoch 20, step:500/1325 37.74%, Loss:0.0473, Perplexity:1.0333
+Epoch 20, step:600/1325 45.28%, Loss:0.0893, Perplexity:1.0639
+Epoch 20, step:700/1325 52.83%, Loss:0.0466, Perplexity:1.0328
+Epoch 20, step:800/1325 60.38%, Loss:0.0453, Perplexity:1.0319
+Epoch 20, step:900/1325 67.92%, Loss:0.0471, Perplexity:1.0332
+Epoch 20, step:1000/1325 75.47%, Loss:0.0435, Perplexity:1.0306
+Epoch 20, step:1100/1325 83.02%, Loss:0.0403, Perplexity:1.0283
+Epoch 20, step:1200/1325 90.57%, Loss:0.0694, Perplexity:1.0493
+Epoch 20, step:1300/1325 98.11%, Loss:0.1105, Perplexity:1.0796
+Epoch 20, validation average loss:0.9689, Perplexity:1.9573
+Saving checkpoint to ./ckpts\ckpt-20-0.9689.pt
+Epoch 21, step:100/1325 7.55%, Loss:0.0459, Perplexity:1.0323
+Epoch 21, step:200/1325 15.09%, Loss:0.0759, Perplexity:1.0540
+Epoch 21, step:300/1325 22.64%, Loss:0.0568, Perplexity:1.0402
+Epoch 21, step:400/1325 30.19%, Loss:0.0406, Perplexity:1.0285
+Epoch 21, step:500/1325 37.74%, Loss:0.0426, Perplexity:1.0300
+Epoch 21, step:600/1325 45.28%, Loss:0.0794, Perplexity:1.0566
+Epoch 21, step:700/1325 52.83%, Loss:0.0415, Perplexity:1.0292
+Epoch 21, step:800/1325 60.38%, Loss:0.0403, Perplexity:1.0283
+Epoch 21, step:900/1325 67.92%, Loss:0.0417, Perplexity:1.0293
+Epoch 21, step:1000/1325 75.47%, Loss:0.0400, Perplexity:1.0281
+Epoch 21, step:1100/1325 83.02%, Loss:0.0417, Perplexity:1.0293
+Epoch 21, step:1200/1325 90.57%, Loss:0.0601, Perplexity:1.0426
+Epoch 21, step:1300/1325 98.11%, Loss:0.0990, Perplexity:1.0710
+Epoch 21, validation average loss:1.1157, Perplexity:2.1670
+Saving checkpoint to ./ckpts\ckpt-21-1.1157.pt
+Epoch 22, step:100/1325 7.55%, Loss:0.0390, Perplexity:1.0274
+Epoch 22, step:200/1325 15.09%, Loss:0.0747, Perplexity:1.0531
+Epoch 22, step:300/1325 22.64%, Loss:0.0531, Perplexity:1.0375
+Epoch 22, step:400/1325 30.19%, Loss:0.0392, Perplexity:1.0276
+Epoch 22, step:500/1325 37.74%, Loss:0.0397, Perplexity:1.0279
+Epoch 22, step:600/1325 45.28%, Loss:0.0736, Perplexity:1.0524
+Epoch 22, step:700/1325 52.83%, Loss:0.0382, Perplexity:1.0268
+Epoch 22, step:800/1325 60.38%, Loss:0.0361, Perplexity:1.0254
+Epoch 22, step:900/1325 67.92%, Loss:0.0344, Perplexity:1.0241
+Epoch 22, step:1000/1325 75.47%, Loss:0.0368, Perplexity:1.0259
+Epoch 22, step:1100/1325 83.02%, Loss:0.0310, Perplexity:1.0217
+Epoch 22, step:1200/1325 90.57%, Loss:0.0515, Perplexity:1.0363
+Epoch 22, step:1300/1325 98.11%, Loss:0.0932, Perplexity:1.0668
+Epoch 22, validation average loss:1.0224, Perplexity:2.0313
+Saving checkpoint to ./ckpts\ckpt-22-1.0224.pt
+Epoch 23, step:100/1325 7.55%, Loss:0.0343, Perplexity:1.0241
+Epoch 23, step:200/1325 15.09%, Loss:0.0623, Perplexity:1.0441
+Epoch 23, step:300/1325 22.64%, Loss:0.0489, Perplexity:1.0344
+Epoch 23, step:400/1325 30.19%, Loss:0.0350, Perplexity:1.0246
+Epoch 23, step:500/1325 37.74%, Loss:0.0386, Perplexity:1.0271
+Epoch 23, step:600/1325 45.28%, Loss:0.0664, Perplexity:1.0471
+Epoch 23, step:700/1325 52.83%, Loss:0.0340, Perplexity:1.0239
+Epoch 23, step:800/1325 60.38%, Loss:0.0347, Perplexity:1.0244
+Epoch 23, step:900/1325 67.92%, Loss:0.0363, Perplexity:1.0255
+Epoch 23, step:1000/1325 75.47%, Loss:0.0308, Perplexity:1.0216
+Epoch 23, step:1100/1325 83.02%, Loss:0.0364, Perplexity:1.0256
+Epoch 23, step:800/1325 60.38%, Loss:0.0347, Perplexity:1.0244
+Epoch 23, step:900/1325 67.92%, Loss:0.0363, Perplexity:1.0255
+Epoch 23, step:1000/1325 75.47%, Loss:0.0308, Perplexity:1.0216
+Epoch 23, step:1100/1325 83.02%, Loss:0.0364, Perplexity:1.0256
+Epoch 23, step:900/1325 67.92%, Loss:0.0363, Perplexity:1.0255
+Epoch 23, step:1000/1325 75.47%, Loss:0.0308, Perplexity:1.0216
+Epoch 23, step:1100/1325 83.02%, Loss:0.0364, Perplexity:1.0256
+Epoch 23, step:1000/1325 75.47%, Loss:0.0308, Perplexity:1.0216
+Epoch 23, step:1100/1325 83.02%, Loss:0.0364, Perplexity:1.0256
+Epoch 23, step:1200/1325 90.57%, Loss:0.0484, Perplexity:1.0341
+Epoch 23, step:1300/1325 98.11%, Loss:0.0807, Perplexity:1.0575
+Epoch 23, step:1100/1325 83.02%, Loss:0.0364, Perplexity:1.0256
+Epoch 23, step:1200/1325 90.57%, Loss:0.0484, Perplexity:1.0341
+Epoch 23, step:1300/1325 98.11%, Loss:0.0807, Perplexity:1.0575
+Epoch 23, step:1200/1325 90.57%, Loss:0.0484, Perplexity:1.0341
+Epoch 23, step:1300/1325 98.11%, Loss:0.0807, Perplexity:1.0575
+Epoch 23, validation average loss:1.6464, Perplexity:3.1306
+Saving checkpoint to ./ckpts\ckpt-23-1.6464.pt
+Epoch 24, step:100/1325 7.55%, Loss:0.0292, Perplexity:1.0205
+Epoch 23, validation average loss:1.6464, Perplexity:3.1306
+Saving checkpoint to ./ckpts\ckpt-23-1.6464.pt
+Epoch 24, step:100/1325 7.55%, Loss:0.0292, Perplexity:1.0205
+Epoch 24, step:100/1325 7.55%, Loss:0.0292, Perplexity:1.0205
+Epoch 24, step:200/1325 15.09%, Loss:0.0548, Perplexity:1.0387
+Epoch 24, step:300/1325 22.64%, Loss:0.0424, Perplexity:1.0298
+Epoch 24, step:400/1325 30.19%, Loss:0.0244, Perplexity:1.0170
+Epoch 24, step:500/1325 37.74%, Loss:0.0301, Perplexity:1.0211
+Epoch 24, step:600/1325 45.28%, Loss:0.0601, Perplexity:1.0426
+Epoch 24, step:700/1325 52.83%, Loss:0.0323, Perplexity:1.0227
+Epoch 24, step:800/1325 60.38%, Loss:0.0290, Perplexity:1.0203
+Epoch 24, step:900/1325 67.92%, Loss:0.0248, Perplexity:1.0173
+Epoch 24, step:1000/1325 75.47%, Loss:0.0242, Perplexity:1.0169
+Epoch 24, step:1100/1325 83.02%, Loss:0.0193, Perplexity:1.0135
+Epoch 24, step:1200/1325 90.57%, Loss:0.0296, Perplexity:1.0207
+Epoch 24, step:1300/1325 98.11%, Loss:0.0553, Perplexity:1.0390
+Epoch 24, validation average loss:1.1202, Perplexity:2.1738
+Saving checkpoint to ./ckpts\ckpt-24-1.1202.pt
+Epoch 25, step:100/1325 7.55%, Loss:0.0192, Perplexity:1.0134
+Epoch 25, step:200/1325 15.09%, Loss:0.0406, Perplexity:1.0285
+Epoch 25, step:300/1325 22.64%, Loss:0.0313, Perplexity:1.0219
+Epoch 25, step:400/1325 30.19%, Loss:0.0171, Perplexity:1.0119
+Epoch 25, step:500/1325 37.74%, Loss:0.0203, Perplexity:1.0142
+Epoch 25, step:600/1325 45.28%, Loss:0.0460, Perplexity:1.0324
+Epoch 25, step:700/1325 52.83%, Loss:0.0203, Perplexity:1.0142
+Epoch 25, step:800/1325 60.38%, Loss:0.0214, Perplexity:1.0149
+Epoch 25, step:900/1325 67.92%, Loss:0.0128, Perplexity:1.0089
+Epoch 25, step:1000/1325 75.47%, Loss:0.0118, Perplexity:1.0082
+Epoch 25, step:1100/1325 83.02%, Loss:0.0108, Perplexity:1.0075
+Epoch 25, step:1200/1325 90.57%, Loss:0.0167, Perplexity:1.0116
+Epoch 25, step:1300/1325 98.11%, Loss:0.0222, Perplexity:1.0155
+Epoch 25, validation average loss:1.0174, Perplexity:2.0242
+Saving checkpoint to ./ckpts\ckpt-25-1.0174.pt

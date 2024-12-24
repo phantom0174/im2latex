@@ -18,14 +18,14 @@ def main():
 
     parser = argparse.ArgumentParser(description="Im2Latex Evaluating Program")
     parser.add_argument('--model_path',
-                        help='path of the evaluated model', default="./test_model/100k_new.pt")
+                        help='path of the evaluated model', default="./test_model/230k_new.pt")
 
     # model args
     parser.add_argument("--data_path", type=str,
-                        default="./data_100k/", help="The dataset's dir")
+                        default="./real/", help="The dataset's dir")
     parser.add_argument("--cuda", action='store_true',
                         default=True, help="Use cuda or not")
-    parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--batch_size", type=int, default=1)
     parser.add_argument("--beam_size", type=int, default=5)
     parser.add_argument("--result_path", type=str,
                         default="./results/result.txt", help="The file to store result")
@@ -63,7 +63,7 @@ def main():
     model.load_state_dict(checkpoint['model_state_dict'])
 
     result_file = open(args.result_path, 'w+')
-    ref_file = open(args.ref_path, 'w+')
+    # ref_file = open(args.ref_path, 'w+')
 
     latex_producer = LatexProducer(
         model, vocab, max_len=args.max_len,
@@ -71,18 +71,20 @@ def main():
 
     for imgs, tgt4training, tgt4cal_loss in tqdm(data_loader):
         try:
-            reference = latex_producer._idx2formulas(tgt4cal_loss)
+            # reference = latex_producer._idx2formulas(tgt4cal_loss)
             results = latex_producer(imgs)
-        except RuntimeError:
+        except RuntimeError as e:
+            print(e)
             break
-
-        result_file.write('\n'.join(results))
-        ref_file.write('\n'.join(reference))
+        
+        result_file.write('\n'.join(results) + '\n')
+        
+        # ref_file.write('\n'.join(reference))
 
     result_file.close()
-    ref_file.close()
-    score = score_files(args.result_path, args.ref_path)
-    print("beam search result:", score)
+    # ref_file.close()
+    # score = score_files(args.result_path, args.ref_path)
+    # print("beam search result:", score)
 
 
 if __name__ == "__main__":
