@@ -28,9 +28,9 @@ def main():
     parser.add_argument("--batch_size", type=int, default=1)
     parser.add_argument("--beam_size", type=int, default=5)
     parser.add_argument("--result_path", type=str,
-                        default="./results/result.txt", help="The file to store result")
+                        default="./real_results/result.txt", help="The file to store result")
     parser.add_argument("--ref_path", type=str,
-                        default="./results/ref.txt", help="The file to store reference")
+                        default="./real_results/ref.txt", help="The file to store reference")
     parser.add_argument("--max_len", type=int,
                         default=64, help="Max step of decoding")
     parser.add_argument("--split", type=str,
